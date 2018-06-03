@@ -34,7 +34,7 @@ export class App extends Component {
   }
 
   removeTrack(track) {
-    let newPlaylist = this.state.playlistTracks.filter(savedTrack => savedTrack.id !== track.id)
+    let newPlaylist = this.state.playlistTracks.filter(savedTrack => savedTrack.id !== track.id);
     this.setState({playlistTracks: newPlaylist});
   }
 

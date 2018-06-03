@@ -36,8 +36,13 @@ export class SearchBar extends Component {
   render() {
     return (
     	<div className="SearchBar">
-    		<input onChange={this.handleTermChange} onKeyPress={this.handleKeyPress} placeholder="Enter A Song, Album, or Artist" value={this.state.term} id="search-field" />
-    		<a onClick={this.search} id="search-button" >SEARCH</a>
+    		<input
+    			onChange={this.handleTermChange}
+    			onKeyPress={this.handleKeyPress}
+    			placeholder="Enter A Song, Album, or Artist"
+    			value={this.state.term}
+    			id="search-field" />
+    		<a onClick={this.search} id="search-button">SEARCH</a>
 			</div>
     );
   }
