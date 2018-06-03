@@ -1,5 +1,8 @@
-const clientId = '<Fill in client id from Spotify>';
-const redirectUri = 'https://cjammming.surge.sh';
+const {
+	REACT_APP_SPOTIFY_CLIENT_ID,
+	REACT_APP_REDIRECT_URI
+} = process.env;
+
 let accessToken, tokenExpiration;
 
 
@@ -31,7 +34,7 @@ export const Spotify = {
 			return accessToken;
     } else {
     	if (!onLoad) {
-    		const getTokenUrl = `https://accounts.spotify.com/authorize?client_id=${clientId}&response_type=token&scope=playlist-modify-public&redirect_uri=${redirectUri}&state=${searchTerm}`;
+    		const getTokenUrl = `https://accounts.spotify.com/authorize?client_id=${REACT_APP_SPOTIFY_CLIENT_ID}&response_type=token&scope=playlist-modify-public&redirect_uri=${REACT_APP_REDIRECT_URI}&state=${searchTerm}`;
     		window.location = getTokenUrl;
     	}
     }
