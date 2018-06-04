@@ -41,11 +41,12 @@ export const Spotify = {
 	},
 
 	search(searchTerm) {
-		return fetch(`https://cors-anywhere.herokuapp.com/https://api.spotify.com/v1/search?type=track&q=${searchTerm}`,{
-			headers: {
-				'Authorization': `Bearer ${Spotify.getAccessToken('',searchTerm)}`
-			}
-		}).then(response => {
+		const headers = {
+				'Authorization': `Bearer ${this.getAccessToken('',searchTerm)}`
+		}
+
+		return fetch(`https://cors-anywhere.herokuapp.com/https://api.spotify.com/v1/search?type=track&q=${searchTerm}`,{headers})
+		.then(response => {
 			if (response.ok) {
 				return response.json();
 			}
@@ -72,31 +73,40 @@ export const Spotify = {
 		}
 
 		const headers = {
-			'Authorization': `Bearer ${Spotify.getAccessToken()}`
+			'Authorization': `Bearer ${this.getAccessToken()}`
 		}
 
-		return fetch('https://cors-anywhere.herokuapp.com/https://api.spotify.com/v1/me', {headers: headers})
+		this.getUserId(headers)
+		.then(userId => {
+			this.initializePlaylist(headers,userId,name)
+			.then(playlistId => this.saveTracksToPlaylist(headers,userId,playlistId,trackIds));
+		})
+//		.then((playlistId,userId) => this.saveTracksToPlaylist(headers,userId,playlistId,trackIds))
+	},
+
+	getUserId(headers) {
+		return fetch('https://cors-anywhere.herokuapp.com/https://api.spotify.com/v1/me', {headers})
 		.then(response => response.json())
 		.then(jsonResponse => jsonResponse.id)
-    .then(userId => {
+    .then(userId => userId)
+	},
 
-      return fetch(`https://cors-anywhere.herokuapp.com/https://api.spotify.com/v1/users/${userId}/playlists`, {
-      	headers: headers,
-      	method: 'POST',
-      	body: JSON.stringify({name: name})
-      })
-      .then(response => response.json())
-      .then(jsonResponse => jsonResponse.id)
-      .then(playlistId => {
+	initializePlaylist(headers,userId,name) {
+		return fetch(`https://cors-anywhere.herokuapp.com/https://api.spotify.com/v1/users/${userId}/playlists`, {
+    	headers: headers,
+    	method: 'POST',
+    	body: JSON.stringify({name: name})
+    })
+    .then(response => response.json())
+    .then(jsonResponse => jsonResponse.id)
+    .then(playlistId => playlistId)
+	},
 
-        return fetch(`https://cors-anywhere.herokuapp.com/https://api.spotify.com/v1/users/${userId}/playlists/${playlistId}/tracks`, {
-          headers: headers,
-          method: 'POST',
-          body: JSON.stringify({uris: trackIds})
-        });
-
-      });
-    
+	saveTracksToPlaylist(headers,userId,playlistId,trackIds) {
+		return fetch(`https://cors-anywhere.herokuapp.com/https://api.spotify.com/v1/users/${userId}/playlists/${playlistId}/tracks`, {
+      headers: headers,
+      method: 'POST',
+      body: JSON.stringify({uris: trackIds})
     });
 	}
 };
