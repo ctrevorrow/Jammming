@@ -38,7 +38,6 @@ export class App extends Component {
     this.setState({searchResults: newSearchResultsList});
   }
 
-
   removeTrack(track) {
     // Removes track from the playlist tracklist
     let newPlaylist = this.state.playlistTracks.filter(savedTrack => savedTrack.id !== track.id);
@@ -52,7 +51,6 @@ export class App extends Component {
     }
   }
 
-
   savePlaylist() {
     let trackUris = this.state.playlistTracks.map(track => track.uri);
     
@@ -62,6 +60,8 @@ export class App extends Component {
       playlistName: 'New Playlist',
       playlistTracks: []
     });
+
+    document.getElementById('playlist-name').value = 'New Playlist';
   }
 
   search(searchTerm) {
