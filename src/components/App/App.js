@@ -26,17 +26,32 @@ export class App extends Component {
   }
 
   addTrack(track) {
+    // Adds track to the playlist tracklist
     if (!(this.state.playlistTracks.find(savedTrack => savedTrack.id === track.id))) {
       let playlist = this.state.playlistTracks;
       playlist.push(track);
       this.setState({playlistTracks: playlist});
     }
+
+    // Removes track from the search results
+    let newSearchResultsList = this.state.searchResults.filter(resultsTrack => resultsTrack.id !== track.id);
+    this.setState({searchResults: newSearchResultsList});
   }
 
+
   removeTrack(track) {
+    // Removes track from the playlist tracklist
     let newPlaylist = this.state.playlistTracks.filter(savedTrack => savedTrack.id !== track.id);
     this.setState({playlistTracks: newPlaylist});
+
+    // Adds track back into the search results
+    if (!(this.state.searchResults.find(resultsTrack => resultsTrack.id === track.id))) {
+      let searchResultsList = this.state.searchResults;
+      searchResultsList.push(track);
+      this.setState({searchResults: searchResultsList});
+    }
   }
+
 
   savePlaylist() {
     let trackUris = this.state.playlistTracks.map(track => track.uri);
@@ -45,7 +60,7 @@ export class App extends Component {
     
     this.setState({
       playlistName: 'New Playlist',
-      playlistTracks: [ ]
+      playlistTracks: []
     });
   }
 
