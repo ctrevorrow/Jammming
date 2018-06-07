@@ -1,9 +1,9 @@
 ## Table of Contents
 
-- [What Is This?](#description)
-- [Original Project Requirements](#project-requirements)
-- [Features and Functionality I've added](#improvements)
-- [Features and Functionality That's Next](#pending-improvements)
+- [What Is This?](#what-is-this)
+- [Original Project Requirements](#original-project-requirements)
+- [Features and Functionality I've added](#features-and-functionality-ive-added)
+- [Features and Functionality That's Next](#features-and-functionality-thats-next)
 - [Credits](#credits)
 
 ## What Is This?
