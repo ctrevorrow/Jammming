@@ -14,8 +14,8 @@ export const Spotify = {
 
 		let accessTokenArray, expirationArray;
 
-		if (document.cookie) {
-			accessTokenArray = document.cookie.match(/accessToken=([^&]*)/);
+		if (document.cookie.match(/accessToken=([^&;]*)/)) {
+			accessTokenArray = document.cookie.match(/accessToken=([^&;]*)/);
 		} else {
 			accessTokenArray = window.location.href.match(/access_token=([^&]*)/);
     	expirationArray = window.location.href.match(/expires_in=([^&]*)/);
@@ -28,7 +28,7 @@ export const Spotify = {
 	    	tokenExpiration = Number(expirationArray[1]) * 1000;
 	    	window.setTimeout(() => accessToken = '', tokenExpiration);
 	    	document.cookie = (`accessToken=${accessToken}; expires=${new Date(Date.now() + tokenExpiration).toUTCString()};`);
-	    	window.history.pushState('Access Token', null, '/');
+	    	window.history.pushState('Access Token', null, '.');
 	    }
 
 			return accessToken;
@@ -42,7 +42,7 @@ export const Spotify = {
 
 	search(searchTerm) {
 		const headers = {
-				'Authorization': `Bearer ${this.getAccessToken('',searchTerm)}`
+			'Authorization': `Bearer ${this.getAccessToken('',searchTerm)}`
 		}
 
 		return fetch(`https://cors-anywhere.herokuapp.com/https://api.spotify.com/v1/search?type=track&q=${searchTerm}`,{headers})
