@@ -81,7 +81,6 @@ export const Spotify = {
 			this.initializePlaylist(headers,userId,name)
 			.then(playlistId => this.saveTracksToPlaylist(headers,userId,playlistId,trackIds));
 		})
-//		.then((playlistId,userId) => this.saveTracksToPlaylist(headers,userId,playlistId,trackIds))
 	},
 
 	getUserId(headers) {
