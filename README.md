@@ -1,3 +1,7 @@
+My deployed Jammming web app can be found on my personal site here:  https://ctrev.me/projects/jammming/.  
+Please feel free to use it to your heart's content. Also, please don't hesitate to post any issues, suggestions, questions, etc. on the issues page of this repo https://github.com/ctrevorrow/jammming/issues
+
+
 ## Table of Contents
 
 - [What Is This?](#what-is-this)
