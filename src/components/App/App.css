@@ -50,3 +50,15 @@ h2 {
     flex-direction: column;
   }
 }
+
+@media only screen and (max-width: 768px) {
+  .App {
+    padding: 0 10% 90px;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  .App {
+    padding: 0 30px 90px;
+  }
+}
