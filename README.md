@@ -7,6 +7,12 @@
   - [Features](#features)
   - [Resources](#resources)
 - [Features and Functionality I've added](#features-and-functionality-ive-added)
+  - [Retaining The Search Term When Fetching An Access Token](#retaining-the-search-term-when-fetching-an-access-token)
+  - [Improved Authentication Flow](#improved-authentication-flow)  
+  - [Perform Search Upon Hitting Enter in Search Field](#perform-search-upon-hitting-enter-in-search-field)
+  - [Remove Track From Search Results Upon Adding to Playlist](#remove-track-from-search-results-upon-adding-to-playlist)
+  - [Use the React-Alert Package For More User Feedback](#use-the-react-alert-package-for-more-user-feedback)
+  - [Added 'Load More' Button](#added-load-more-button)
 - [Features and Functionality That's Next](#features-and-functionality-thats-next)
 - [Credits](#credits)
 
@@ -80,7 +86,18 @@ Below is the original instructions with projects requirements, a video demonstra
  
 
 ## Features and Functionality That's Next
-  aaa
+  - Adding a nice big dynamic spinning loading indicator for searching and saving playlists
+    - Code is already mostly written, but not yet implemented
+  - Change from using a 'Load More' button to using user scrolling for displaying more results.  Probably a 'pull up to load more' model
+  - Add functionality to preview a track (listening to part of a track to determine playlist admissibility)
+  - Add ability to upload custom playlist artwork / image
+    - This is an exciting one because not everyone can do this even on the official Spotify client
+  - Add functionality for reordering the tracks in the playlist
+  - When a new search is performed, don’t display tracks already in the playlist 
+  - *Maybe* Displaying album artwork in search results or playlist track list
+  - *Maybe* Add ability to edit existing playlists
+  - *Maybe* Allow clicking on an artists name to see more songs by them
+
 
 ## Credits
   Giving credit where it's due:
