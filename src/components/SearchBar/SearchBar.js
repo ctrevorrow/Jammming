@@ -14,7 +14,7 @@ export class SearchBar extends Component {
 		}
 		// When the app requests a new access token, the redirects clear the search bar and no search is performed. This code corrects that.
 		if (searchTermArray) {
-			this.state.term = searchTermArray[1];
+			this.state.term = decodeURI(searchTermArray[1]);
 			this.search();
 		}
 	}
@@ -30,7 +30,7 @@ export class SearchBar extends Component {
 	}
 
 	search() {
-		this.props.onSearch(this.state.term);
+		this.props.onSearch(this.state.term,0);
 	}
 
   render() {

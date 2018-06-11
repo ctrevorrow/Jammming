@@ -17,12 +17,15 @@ class App extends Component {
     this.removeTrack = this.removeTrack.bind(this);
     this.savePlaylist = this.savePlaylist.bind(this);
     this.search = this.search.bind(this);
+    this.searchMore = this.searchMore.bind(this);
     this.updatePlaylistName = this.updatePlaylistName.bind(this);
 
     this.state = {
       searchResults: [],
       playlistName: 'New Playlist',
-      playlistTracks: []
+      playlistTracks: [],
+      searchLimit: 20,
+      searchOffset: 0
     };
   }
 
@@ -75,8 +78,20 @@ class App extends Component {
   }
 
   search(searchTerm) {
-    Spotify.search(searchTerm).then(response => {
-      this.setState({searchResults: response});
+    Spotify.search(searchTerm,this.state.searchLimit).then(response => {
+      this.setState({
+        searchResults: response,
+        searchTerm: searchTerm
+      });
+    });
+  }
+
+  searchMore() {
+    const searchOffset = this.state.searchOffset + this.state.searchLimit;
+    this.setState({ searchOffset: searchOffset });
+    
+    Spotify.search(this.state.searchTerm,this.state.searchLimit,searchOffset).then(response => {
+      this.setState({ searchResults: response });
     });
   }
 
@@ -92,7 +107,9 @@ class App extends Component {
           <SearchBar onSearch={this.search} />
           <div className="App-playlist">
             <SearchResults
+              limit={this.state.searchLimit}
               onAdd={this.addTrack}
+              onLoadMore={this.searchMore}
               searchResults={this.state.searchResults} />
             <Playlist
               name={this.state.playlistName}

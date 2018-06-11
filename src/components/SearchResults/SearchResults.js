@@ -8,8 +8,10 @@ export class SearchResults extends Component {
     	<div className="SearchResults">
     		<h2>Results</h2>
     		<TrackList
+          full={this.props.searchResults.length >= this.props.limit ? true : false }
     			isRemoval={false}
     			onAdd={this.props.onAdd}
+          onLoadMore={this.props.onLoadMore}
     			tracks={this.props.searchResults} />
     	</div>
     );

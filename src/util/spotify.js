@@ -3,8 +3,8 @@ const {
 	REACT_APP_REDIRECT_URI
 } = process.env;
 
+const corsAny = 'https://cors-anywhere.herokuapp.com/';
 let accessToken, tokenExpiration;
-
 
 export const Spotify = {
 	getAccessToken(onLoad,searchTerm) {
@@ -40,12 +40,16 @@ export const Spotify = {
     }
 	},
 
-	search(searchTerm) {
+	search(searchTerm,searchLimit,searchOffset) {
 		const headers = {
 			'Authorization': `Bearer ${this.getAccessToken('',searchTerm)}`
 		}
 
-		return fetch(`https://cors-anywhere.herokuapp.com/https://api.spotify.com/v1/search?type=track&q=${searchTerm}`,{headers})
+		let searchUrl = `${corsAny}https://api.spotify.com/v1/search?type=track&q=${searchTerm}`;
+		searchLimit ? searchUrl += `&limit=${searchLimit}` : '';
+		searchOffset ? searchUrl += `&offset=${searchOffset}` : '';
+
+		return fetch(searchUrl,{headers})
 		.then(response => {
 			if (response.ok) {
 				return response.json();
@@ -76,11 +80,12 @@ export const Spotify = {
 			'Authorization': `Bearer ${this.getAccessToken()}`
 		}
 
-		this.getUserId(headers)
+		return this.getUserId(headers)
 		.then(userId => {
-			this.initializePlaylist(headers,userId,name)
-			.then(playlistId => this.saveTracksToPlaylist(headers,userId,playlistId,trackIds));
-		})
+			return this.initializePlaylist(headers,userId,name)
+			.then(playlistId => this.saveTracksToPlaylist(headers,userId,playlistId,trackIds))
+			.then(response => response);
+		});
 	},
 
 	getUserId(headers) {
@@ -106,6 +111,6 @@ export const Spotify = {
       headers: headers,
       method: 'POST',
       body: JSON.stringify({uris: trackIds})
-    });
+    }).then(response => response);
 	}
 };
