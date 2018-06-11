@@ -1,4 +1,5 @@
 import React from 'react';
+import './AlertTemplate.css';
 
 var BaseIcon = function BaseIcon(_ref) {
   var color = _ref.color,
@@ -75,21 +76,6 @@ var _extends = Object.assign || function (target) {
   return target;
 };
 
-var alertStyle = {
-  backgroundColor: '#151515',
-  color: 'white',
-  padding: '10px',
-  textTransform: 'uppercase',
-  borderRadius: '3px',
-  display: 'flex',
-  justifyContent: 'space-between',
-  alignItems: 'center',
-  boxShadow: '0px 2px 2px 2px rgba(0, 0, 0, 0.03)',
-  fontFamily: 'Arial',
-  width: '300px',
-  boxSizing: 'border-box'
-};
-
 var buttonStyle = {
   marginLeft: '20px',
   border: 'none',
@@ -106,12 +92,12 @@ var AlertTemplate = function AlertTemplate(_ref) {
 
   return React.createElement(
     'div',
-    { style: _extends({}, alertStyle, style) },
+    { class: 'alert-container' },
     options.type === 'info' && React.createElement(InfoIcon, null),
     options.type === 'success' && React.createElement(SuccessIcon, null),
     options.type === 'error' && React.createElement(ErrorIcon, null),
     React.createElement(
-      'span',
+      'p',
       { style: { flex: 2 } },
       message
     ),
