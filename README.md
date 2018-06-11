@@ -39,23 +39,45 @@ Below is the original instructions with projects requirements, a video demonstra
   
 ## Features and Functionality I've added
   ### Retaining The Search Term When Fetching An Access Token
-  - The access token is typically fetched upon entering a search term and clicking search.
-  - The access token is gotten by going to an url endpoint on Spotify with the apps client id and a callback url in the endpoint url
-    - At this endpoint, if the user has not yet approved the app they will approve the app to give it permission to access the public playlists on their Spotify account. They will be asked to login before this if they weren't already logged in.
-    - If the user has already approved the app on a previous visit, it doesn't stop here.
-    - The Spotify end point then sends the user back via the specified callback url along with some parameters in the url, one of which is the access token.
-  - Upon returning to the Jammming webpage, the search term is gone and no search results are shown. This is because it's as if we reloaded the page, because in a way we did.
-  - Looked at the Spotify Docs and found that a 'state' variable could be sent as a url parameter to the endpoint for getting an access token, one of the parameters in the url on the return is then this same variable.
-  - With this knowledge, I changed the app's function for fetching and setting the access to allow for the search term as a parameter.  I was then able to pass the search term to 
+   #### Background
+   The access token is typically fetched upon entering a search term and clicking search. The access token is gotten by going to a URL endpoint on Spotify with the app's client id and a callback url in the endpoint URL. At this endpoint, if the user has not yet approved the app they will approve the app to give it permission to access the public playlists on their Spotify account. They will be asked to login before clicking approve, if they weren't already logged in. If the user has already approved the app on a previous visit, the flow from Jammming to Spotify and back is almost imperceivable to the user. The Spotify endpoint then sends the user back via the specified callback url along with some parameters in the url, one of which is the access token.
+   #### Previous Behavior
+   Previously, upon returning to the Jammming webpage, the search term is gone and no search results are shown. This is because it's as if we reloaded the page, because in a way we did.
+   #### Solution
+   I looked at the Spotify Docs and found that a 'state' variable could be sent as a URL parameter to the endpoint when requesting an access token, on the return one of the parameters in the URL is then this same variable and value. With this knowledge, I changed the app's functionality for fetching and setting the access token to send the search term as the 'state' variable in the URL. The URL on the return then contains the search term. When the app detects that a search term is present in the URL, it loads this search term into the search bar performs a search using the search term.
     
-  - Previously, when the application first took the user to go get an access token from Spotify, 
+ 
   ### Improved Authentication Flow
-  - I changed the authentication flow to feel more seamless to the user.
-  - Previously, when the user landed on the site they would have to try searching for something at least two times—often three times—before the search results would actually come through.
+  #### Previous Behavior
+  Previously, when the user landed on the site they would have to try searching for something at least two times—often three times—before the search results would actually come through.
     - One time to go request the access token from Spotify
     - A second time to store the access token, and if timing lines up perfectly it will then use the access token to make the search
     - A third time when the timing inevitably did not line up on the second time.
   - This created for an awful user experience so I set out to improve upon it.
+  #### Solution
+  Part of the solution to this was immediately calling on page load the function for setting the access token.  The function had to be slightly modified for this. I did not want the user to be redirected to Spotify immediately upon landing on my page, so I modified the function to accept an onLoad parameter. When the onLoad parameter is present / set to true, the app does not redirect to Spotify to get an access token. It tries to set the access token from the url, and if it can't it will wait until the user searches something. Another part of my solution was storing the access token in a cookie, along with a proper expiration. The access token can now be gotten from the cookies on page load and reload. Previously, a new access token would be requested on every page load and reload. Coming full circle here, these changes coupled with the changes to retain and use the search term when fetching an access token creates for a new, vastly improved flow.  The user now has to hit the search button just one time to get results, regardless of the access token status. The search will merely take a second or two longer to be completed, if an access token must be requested from Spotify.
+   
+  
+ ### Perform Search Upon Hitting Enter in Search Field
+ #### Background
+ It has become something of an expectation among users that pressing the _Enter_, _Return_, or _Carriage Return_ key will trigger for a search or any number of other activities on websites and web apps. This means it is important to include such functionality in the relevant places. In the case of Jammming, this place is in the search bar / search field.
+ #### Previous Behavior
+ Previously, nothing happened if the user typed in a search term in the search bar and pressed enter.
+ #### Solution
+ I added a keypress event listener/handler to the searchBar component. When a key is pressed, it is checked for if it equals 'Enter'. If the key is 'Enter', a search is triggered just the same as if the search button had been pressed.
+
+
+ ### Remove Track From Search Results Upon Adding to Playlist
+ It now removes a track from the search results when it is added to the playlist. This gives the user a sense that something has happened in the case that they cannot see the playlist panel.  This also reduces "clutter" in the search results. There are less tracks for the user to look through.
+ 
+ 
+ ### Use the React-Alert Package For More User Feedback
+ A nice little notification is now shown at the bottom on the screen each time a track is added to the playlist.  Also, a little notification is now displayed when the playlist is saved to the users Spotify.
+ 
+ 
+ ### Added 'Load More' Button
+ Now when there are more possible search results available than are intially displayed, a 'Load More' button is placed at the end of the results list. Pressing the button triggers the app to perform an offset search which results in the _next page_ on the results being displayed.
+ 
 
 ## Features and Functionality That's Next
   aaa
