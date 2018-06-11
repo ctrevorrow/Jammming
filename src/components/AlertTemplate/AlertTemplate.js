@@ -62,20 +62,6 @@ var CloseIcon = function CloseIcon() {
   );
 };
 
-var _extends = Object.assign || function (target) {
-  for (var i = 1; i < arguments.length; i++) {
-    var source = arguments[i];
-
-    for (var key in source) {
-      if (Object.prototype.hasOwnProperty.call(source, key)) {
-        target[key] = source[key];
-      }
-    }
-  }
-
-  return target;
-};
-
 var buttonStyle = {
   marginLeft: '20px',
   border: 'none',
@@ -87,12 +73,11 @@ var buttonStyle = {
 var AlertTemplate = function AlertTemplate(_ref) {
   var message = _ref.message,
       options = _ref.options,
-      style = _ref.style,
       close = _ref.close;
 
   return React.createElement(
     'div',
-    { class: 'alert-container' },
+    { className: 'alert-container' },
     options.type === 'info' && React.createElement(InfoIcon, null),
     options.type === 'success' && React.createElement(SuccessIcon, null),
     options.type === 'error' && React.createElement(ErrorIcon, null),
