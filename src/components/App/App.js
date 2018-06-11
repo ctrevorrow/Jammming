@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { withAlert } from 'react-alert';
 import './App.css';
 import { SearchBar } from '../SearchBar/SearchBar';
 import { SearchResults } from '../SearchResults/SearchResults';
@@ -8,7 +9,7 @@ import { Spotify } from '../../util/spotify';
 // Sets the access token when the app loads
 Spotify.getAccessToken(true);
 
-export class App extends Component {
+class App extends Component {
   constructor(props) {
     super(props);
     
@@ -31,6 +32,7 @@ export class App extends Component {
       let playlist = this.state.playlistTracks;
       playlist.push(track);
       this.setState({playlistTracks: playlist});
+      this.props.alert.success(`Added: ${track.name} by ${track.artist}`);
     }
 
     // Removes track from the search results
@@ -54,14 +56,22 @@ export class App extends Component {
   savePlaylist() {
     let trackUris = this.state.playlistTracks.map(track => track.uri);
     
-    Spotify.savePlaylist(this.state.playlistName,trackUris);
-    
-    this.setState({
-      playlistName: 'New Playlist',
-      playlistTracks: []
+    Spotify.savePlaylist(this.state.playlistName,trackUris)
+    .then(response => {
+      if (response.status === 201) {
+        this.props.alert.success(`Your playlist was successfully saved`);
+        
+        this.setState({
+          playlistName: 'New Playlist',
+          playlistTracks: []
+        });
+        
+        document.getElementById('playlist-name').value = 'New Playlist';
+      } else {
+        this.props.alert.error(`Oh no, something went wrong :( ${response.status}: ${response.statusText}`);
+        console.log(response);
+      }
     });
-
-    document.getElementById('playlist-name').value = 'New Playlist';
   }
 
   search(searchTerm) {
@@ -96,3 +106,5 @@ export class App extends Component {
     );
   }
 }
+
+export default withAlert(App);
