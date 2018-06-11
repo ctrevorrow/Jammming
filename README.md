@@ -14,6 +14,7 @@
   - [Use the React-Alert Package For More User Feedback](#use-the-react-alert-package-for-more-user-feedback)
   - [Added 'Load More' Button](#added-load-more-button)
 - [Features and Functionality That's Next](#features-and-functionality-thats-next)
+  - [View Full List](#features-and-functionality-thats-next)
 - [Credits](#credits)
 
 ## What Is This?
